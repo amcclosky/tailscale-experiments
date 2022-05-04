@@ -25,10 +25,13 @@ build386:
 buildlinuxarm:
 	GOOS=linux GOARCH=arm go install tailscale.com/cmd/tailscale tailscale.com/cmd/tailscaled
 
+buildmacosarm:
+	GOOS=darwin GOARCH=arm64 go install tailscale.com/cmd/tailscale tailscale.com/cmd/tailscaled
+
 buildmultiarchimage:
 	./build_docker.sh
 
-check: staticcheck vet depaware buildwindows build386 buildlinuxarm
+check: staticcheck vet depaware buildwindows build386 buildlinuxarm buildmacosarm
 
 staticcheck:
 	go run honnef.co/go/tools/cmd/staticcheck -- $$(go list ./... | grep -v tempfork)
